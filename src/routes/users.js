@@ -1,8 +1,8 @@
 const express = require('express');
 const router = new express.Router();
 const Joi = require('@hapi/joi');
-const validation = require("../../util/validation");
-const message = require("../../util/messages");
+const validation = require("../util/validation");
+const message = require("../util/validation");
 const userService = require("../services/users.service");
 const authentication = require("../middleware/auth");
 

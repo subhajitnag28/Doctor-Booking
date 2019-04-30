@@ -1,7 +1,7 @@
 const db = require("../db/database");
-const salt = require("../../util/salt");
-const message = require("../../util/messages");
-const authToken = require("../../util/authToken");
+const salt = require("../util/salt");
+const message = require("../util/messages");
+const authToken = require("../util/authToken");
 
 class UserService {
 

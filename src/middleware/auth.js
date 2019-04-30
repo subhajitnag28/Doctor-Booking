@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const message = require("../../util/messages");
+const message = require("../util/messages");
 
 const auth = (req, res, next) => {
 	// try {
