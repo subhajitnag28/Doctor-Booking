@@ -1,7 +1,7 @@
 module.exports = {
-	mongo: {
+	mongodb: {
 		host: "localhost",
 		port: "27017",
-		dbName: "doctor-booking"
+		dbName: "doctorBooking"
 	}
 };

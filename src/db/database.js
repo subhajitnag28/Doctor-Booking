@@ -2,7 +2,7 @@ const mongoClient = require("mongodb").MongoClient;
 const dbConfig = require("../config/config");
 
 const connectionUri = [
-	"mongodb://" + dbConfig.mongo.host + ":" + dbConfig.mongo.port + "/" + dbConfig.mongo.dbName
+	"mongodb://" + dbConfig.mongodb.host + ":" + dbConfig.mongodb.port + "/" + dbConfig.mongodb.dbName
 ].join("");
 
 let connection = null;
