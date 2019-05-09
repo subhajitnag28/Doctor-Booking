@@ -141,7 +141,7 @@ class UserService {
 	}
 
 	/**
-	 * Verify otp
+	 * Verify otp and change password
 	 */
 
 	changePassword(value) {
