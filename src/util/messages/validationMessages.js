@@ -9,5 +9,8 @@ module.exports = {
 	phoneNumber: {
 		min: 10, max: 10, message: "Phone number should be 10 digit long"
 	},
-	password: { min: 6, message: "Password should be minimum 6 characters long" }
+	password: { min: 6, message: "Password should be minimum 6 characters long" },
+	type: { min: 4, max: 6, message: "Type is required" },
+	otp: { min: 6, max: 6, message: "Otp should be 6 digit long" },
+	userId: { message: "User id is required" }
 };

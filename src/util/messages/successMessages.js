@@ -12,5 +12,23 @@ module.exports = {
 			code: statusCode.success.ok,
 			message: "User login successfully"
 		}
+	},
+	sendOtp: {
+		success: {
+			code: statusCode.success.ok,
+			message: "Otp send successfully"
+		}
+	},
+	changePassword: {
+		success: {
+			code: statusCode.success.ok,
+			message: "Passsword change successfully"
+		}
+	},
+	getUserDetails: {
+		success: {
+			code: statusCode.success.ok,
+			message: "User details"
+		}
 	}
 };
