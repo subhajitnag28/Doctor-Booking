@@ -3,7 +3,7 @@ const errorMessage = require("../util/messages/errorMessages");
 
 const auth = async (req, res, next) => {
 	const token = req.header('Authorization').replace('Bearer ', '');
-	const time = req.header('Time');
+	req.header('Time');
 	const user = db.get().collection('user');
 
 	user.find({ "token.value": token, "token.expiration": { $gte: new Date().getTime() } }).toArray(function (err, result) {
@@ -40,6 +40,7 @@ const auth = async (req, res, next) => {
 			} else {
 				res.status(errorMessage.unauthorized.code).json({
 					success: false,
+					code: errorMessage.unauthorized.code,
 					data: {
 						message: errorMessage.unauthorized.message
 					}
