@@ -2,6 +2,7 @@ const express = require('express');
 const router = new express.Router();
 const Joi = require('@hapi/joi');
 Joi.objectId = require('joi-objectid')(Joi);
+const mongodb = require("mongodb");
 
 const validation = require("../util/validation");
 const validationMessage = require("../util/messages/validationMessages");
@@ -9,7 +10,6 @@ const errorMessage = require("../util/messages/errorMessages");
 const ststusCode = require("../util/messages/statusCode");
 
 const userService = require("../services/users.service");
-const authentication = require("../middleware/auth");
 
 /**
  * Users registration
@@ -212,20 +212,17 @@ router.post("/changePassword", function (req, res) {
  */
 
 router.get("/getUserById/:id", function (req, res) {
-	const userId = req.query.id;
-	console.log(userId);
+	const userId = req.params.id;
 
 	if (userId) {
-		const schema = Joi.object().keys({
-			id: Joi.objectId().label(validationMessage.userId.message),
-		});
-
-		validation.customValidation(userId, schema).then((result) => {
-			userService.getUserById(result).then((response) => {
-				// res.status(response.code).json({
-				// 	success: true,
-				// 	message: response.message
-				// });
+		const isValid = mongodb.ObjectID.isValid(userId);
+		if (isValid) {
+			userService.getUserById(userId).then((response) => {
+				res.status(response.code).json({
+					success: true,
+					message: response.message,
+					userDetails: response.details
+				});
 			}).catch((error) => {
 				res.status(error.code).json({
 					success: false,
@@ -234,15 +231,14 @@ router.get("/getUserById/:id", function (req, res) {
 					}
 				});
 			});
-		}).catch((error) => {
-			console.log("2 :", error);
+		} else {
 			res.status(ststusCode.error.validation).json({
 				success: false,
 				data: {
-					message: error
+					message: validationMessage.userId.message
 				}
 			});
-		});
+		}
 	} else {
 		res.status(ststusCode.error.validation).json({
 			success: false,

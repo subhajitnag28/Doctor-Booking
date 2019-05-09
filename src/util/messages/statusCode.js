@@ -4,7 +4,7 @@ module.exports = {
 		created: 201
 	},
 	error: {
-		internalServer: 500,
+		internalServerError: 500,
 		validation: 400,
 		notFound: 404,
 		forbidden: 403,
