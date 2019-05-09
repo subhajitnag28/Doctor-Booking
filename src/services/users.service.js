@@ -59,6 +59,7 @@ class UserService {
 				} else {
 					if (result.length != 0) {
 						const userData = result[0];
+						userData.token = { value: Math.random().toString(12).substr(5), expiration: new Date().setMinutes(new Date().getMinutes() + 45) };
 						const decryptedPassword = salt.getPasswordFromHash(userData.saltKey, data.password);
 						if (decryptedPassword.passwordHash && decryptedPassword.passwordHash == userData.salt) {
 							user.findOneAndUpdate(userData._id, { $set: userData }, function (err, userDetails) {
@@ -216,6 +217,40 @@ class UserService {
 						delete userDetails.createdTime;
 
 						resolve({ code: successMessage.getUserDetails.success.code, message: successMessage.getUserDetails.success.message, details: userDetails });
+					} else {
+						reject({ code: errorMessage.general.userNotFound.code, message: errorMessage.general.userNotFound.message });
+					}
+				}
+			});
+		});
+	}
+
+	/**
+	 * Update user details
+	 */
+	updateUserDetails(value) {
+		return new Promise(function (resolve, reject) {
+			const data = value;
+			const user = db.get().collection('user');
+
+			user.find({ email: data.email }).toArray(function (err, result) {
+				if (err) {
+					reject({ code: errorMessage.general.internalServerError.code, message: errorMessage.general.internalServerError.message });
+				} else {
+					if (result.length != 0) {
+						user.update({
+							email: data.email
+						}, {
+								$set: data
+							}, {
+								upsert: true
+							}, function (err2, details) {
+								if (err2) {
+									reject({ code: errorMessage.general.internalServerError.code, message: errorMessage.general.internalServerError.message });
+								} else {
+									resolve({ code: successMessage.updateUserDetails.success.code, message: successMessage.updateUserDetails.success.message });
+								}
+							});
 					} else {
 						reject({ code: errorMessage.general.userNotFound.code, message: errorMessage.general.userNotFound.message });
 					}

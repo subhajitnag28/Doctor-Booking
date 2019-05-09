@@ -6,6 +6,7 @@ module.exports = {
 		unauthorized: { code: statusCode.error.unauthorized, message: "User unauthorized" },
 		userNotFound: { code: statusCode.error.notFound, message: "User not found" }
 	},
+	unauthorized: { code: statusCode.error.unauthorized, message: "User unauthorized" },
 	userRegistration: {
 		validation: { code: statusCode.error.validation, message: "First name, last name, email, phone number, password and Type are required" },
 		emailExist: { code: statusCode.error.notFound, message: "Email already exist" }
@@ -22,6 +23,9 @@ module.exports = {
 		otpNotMatch: { code: statusCode.error.notFound, message: "Otp does not match" }
 	},
 	getUserDetails: {
+		validation: { code: statusCode.error.validation, message: "User id is required" }
+	},
+	updateUserDetails: {
 		validation: { code: statusCode.error.validation, message: "User id is required" }
 	}
 };

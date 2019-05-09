@@ -9,6 +9,7 @@ const validationMessage = require("../util/messages/validationMessages");
 const errorMessage = require("../util/messages/errorMessages");
 const ststusCode = require("../util/messages/statusCode");
 
+const auth = require("../middleware/auth");
 const userService = require("../services/users.service");
 
 /**
@@ -118,7 +119,7 @@ router.post("/login", (req, res) => {
  * Send Otp
  */
 
-router.post("/sendOtp", function (req, res) {
+router.post("/sendOtp", auth, function (req, res) {
 	const request_body = req.body;
 
 	if (request_body.email) {
@@ -163,7 +164,7 @@ router.post("/sendOtp", function (req, res) {
  * Change password
  */
 
-router.post("/changePassword", function (req, res) {
+router.post("/changePassword", auth, function (req, res) {
 	const request_body = req.body;
 
 	if (request_body.email &&
@@ -211,7 +212,7 @@ router.post("/changePassword", function (req, res) {
  * Get user by id
  */
 
-router.get("/getUserById/:id", function (req, res) {
+router.get("/getUserById/:id", auth, function (req, res) {
 	const userId = req.params.id;
 
 	if (userId) {
@@ -244,6 +245,47 @@ router.get("/getUserById/:id", function (req, res) {
 			success: false,
 			data: {
 				message: errorMessage.getUserDetails.validation.message
+			}
+		});
+	}
+});
+
+/**
+ * Update user details
+ */
+
+router.put("/updateUserDetails", auth, function (req, res) {
+	const request_body = req.body;
+
+	if (request_body.userId) {
+		const isValid = mongodb.ObjectID.isValid(request_body.userId);
+		if (isValid) {
+			userService.updateUserDetails(request_body).then((response) => {
+				res.status(response.code).json({
+					success: true,
+					message: response.message
+				});
+			}).catch((error) => {
+				res.status(error.code).json({
+					success: false,
+					data: {
+						message: error.message
+					}
+				});
+			});
+		} else {
+			res.status(ststusCode.error.validation).json({
+				success: false,
+				data: {
+					message: validationMessage.userId.message
+				}
+			});
+		}
+	} else {
+		res.status(ststusCode.error.validation).json({
+			success: false,
+			data: {
+				message: errorMessage.updateUserDetails.validation.message
 			}
 		});
 	}

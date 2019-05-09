@@ -15,5 +15,8 @@ module.exports = {
 	},
 	getUserDetails: {
 		success: { code: statusCode.success.ok, message: "User details" }
+	},
+	updateUserDetails: {
+		success: { code: statusCode.success.ok, message: "User details updated successfully" }
 	}
 };
